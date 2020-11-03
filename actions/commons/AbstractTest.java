@@ -6,40 +6,50 @@ import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.seleniumhq.jetty9.util.log.Log;
 import org.testng.Assert;
 import org.testng.Reporter;
 
 
 
 public class AbstractTest {
-	public WebDriver driver;
+	WebDriver driver;
 	String rootFolder = System.getProperty("user.dir");
-	protected final Log log;
-	protected AbstractTest() {
-		log = LogFactory.getLog(getClass());
-	}
+	protected final Log log = new Log();
 	
-	protected WebDriver getBrowserDriver (String browser, String appUrl) {
+	
+	protected WebDriver getBrowserDriver (String browser, String url) {
 		if (browser.equalsIgnoreCase("firefox")) {
-			System.getProperty("webdriver.gecko.driver", rootFolder + "/common_libs/driver/geckodriver.exe");
-			driver = new FirefoxDriver();
+			System.setProperty("webdriver.gecko.driver", rootFolder + "/common_libs/driver/geckodriver");
+			driver= new FirefoxDriver();
 		}
-		if (browser.equalsIgnoreCase("chrome")) {
-			System.getProperty("webdriver.gecko.driver", rootFolder + "/common_libs/driver/chromedriver.exe");
-			driver = new ChromeDriver();
+		else if (browser.equalsIgnoreCase("chrome")) {
+			System.setProperty("webdriver.chrome.driver", rootFolder + "/common_libs/driver/chromedriver");
+			driver= new ChromeDriver();
+		} 
+		else if (browser.equalsIgnoreCase("chromeheadless")) {
+			System.setProperty("webdriver.chrome.driver", rootFolder + "/common_libs/driver/chromedriver");
+			ChromeOptions options = new ChromeOptions();
+			options.addArguments("headless");
+			options.addArguments("window-size=1366x768");
+			driver = new ChromeDriver(options);
+			
 		} else {
 			System.out.println("Please select the browser");
 		}
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(GlobalConstants.shortTimeout, TimeUnit.SECONDS);
-		driver.get(appUrl);
+		driver.get(url);
 		return driver;
 	}
+	
+	
+	
 	
 	protected int randomNumber() {
 		Random rand = new Random();
@@ -98,7 +108,8 @@ public class AbstractTest {
 	protected void closeBrowserAndDriver(WebDriver driver) {
 		try {
 			String osName = System.getProperty("os.name").toLowerCase();
-			log.info("OS name = " + osName);
+			
+			log.equals("OS name = " + osName);
 			String cmd = "";
 			if (driver != null) {
 				driver.quit();
@@ -125,9 +136,9 @@ public class AbstractTest {
 			Process process = Runtime.getRuntime().exec(cmd);
 			process.waitFor();
 
-			log.info("---------- QUIT BROWSER SUCCESS ----------");
+			log.equals("---------- QUIT BROWSER SUCCESS ----------");
 		} catch (Exception e) {
-			log.info(e.getMessage());
+			log.equals(e.getMessage());
 		}
 	}
 

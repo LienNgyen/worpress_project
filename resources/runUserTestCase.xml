@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="com.wordpress.adminSite" parallel="classes" thread-count="2">
+<parameter name ="browser" value="chrome"/>
+<parameter name="url" value="https://automationfc.wordpress.com/wp-admin/"/>
+  <test name="admin_TestCases">
+    <classes>
+  
+     
+
+      <class name="com.wordpress.adminSite.admin_post_testcase"/>
+      
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->

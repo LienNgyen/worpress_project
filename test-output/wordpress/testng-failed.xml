@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [wordpress]">
+  <parameter name="browser" value="chrome"/>
+  <parameter name="url" value="https://automationfc.wordpress.com/wp-admin/"/>
+  <test name="admin_TestCases(failed)" parallel="classes">
+    <classes>
+      <class name="com.wordpress.adminSite.admin_login_testcases">
+        <methods>
+          <include name="beforeClass"/>
+          <include name="TC01_Login_Empty_UserName"/>
+          <include name="afterClass"/>
+        </methods>
+      </class> <!-- com.wordpress.adminSite.admin_login_testcases -->
+    </classes>
+  </test> <!-- admin_TestCases(failed) -->
+</suite> <!-- Failed suite [wordpress] -->
